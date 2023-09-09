@@ -1,0 +1,52 @@
+import random
+
+# Create the game board (10x10 grid)
+board = [['~' for _ in range(10)] for _ in range(10)]
+
+# Place ships on the game board
+player_ships = [[1, 1], [2, 4], [3, 7]]
+computer_ships = [[6, 3], [8, 5], [9, 9]]
+
+# Game loop
+while True:
+    # Player's turn
+    print("Player's turn")
+    player_guess_row = int(input("Enter row (0-9): "))
+    player_guess_col = int(input("Enter column (0-9): "))
+
+    if [player_guess_row, player_guess_col] in computer_ships:
+        print("Player hits!")
+        board[player_guess_row][player_guess_col] = 'X'
+        computer_ships.remove([player_guess_row, player_guess_col])
+    else:
+        print("Player misses!")
+        board[player_guess_row][player_guess_col] = 'O'
+
+    # Check if player won
+    if len(computer_ships) == 0:
+        print("Congratulations! Player wins!")
+        break
+
+    # Computer's turn
+    print("Computer's turn")
+    computer_guess_row = random.randint(0, 9)
+    computer_guess_col = random.randint(0, 9)
+
+    if [computer_guess_row, computer_guess_col] in player_ships:
+        print("Computer hits!")
+        board[computer_guess_row][computer_guess_col] = 'X'
+        player_ships.remove([computer_guess_row, computer_guess_col])
+    else:
+        print("Computer misses!")
+        board[computer_guess_row][computer_guess_col] = 'O'
+
+    # Check if computer won
+    if len(player_ships) == 0:
+        print("Computer wins!")
+        break
+
+    # Display the game board
+    print("Game Board:")
+    for row in board:
+        print(' '.join(row))
+    print("-------------------------")
